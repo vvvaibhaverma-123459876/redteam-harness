@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "redteam-harness"
+version = "0.1.0"
+description = "Automated LLM adversarial robustness & jailbreak evaluation with a before/after safety scorecard and CI gate (defensive)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.40.0"]
+openai = ["openai>=1.30.0"]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+]
+
+[project.scripts]
+redteam-harness = "redteam_harness.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["redteam_harness*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["redteam_harness"]
+omit = ["*/tests/*", "*/targets/anthropic_target.py", "*/targets/openai_target.py"]
